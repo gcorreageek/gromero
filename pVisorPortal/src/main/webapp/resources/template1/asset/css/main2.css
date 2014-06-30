@@ -1,0 +1,75 @@
+body {
+	font-family: 'Oxygen', sans-serif;
+	background: #917E9E;
+}
+
+.tituloHaribonGrande {
+	font-family: 'Pacifico', cursive;
+	font-size: 23px;
+}
+
+.tituloo6 {
+	font-family: 'Pacifico', cursive;
+	font-size: 18px;
+}
+
+.tituloo2 {
+	font-family: 'Pacifico', cursive;
+	font-size: 40px;
+}
+
+footer #idAAA {
+	color: white;
+}
+
+footer #idAAA:hover {
+	color: white;
+	text-decoration: none;
+}
+
+footer ul li a {
+	color: white;
+}
+
+footer ul li a:hover {
+	color: white;
+	/*text-decoration: none;*/
+}
+
+.tituloo3 {
+	font-family: 'Oxygen', sans-serif;
+	font-size: 12px;
+	font-weight: 300;
+}
+
+.tituloo4 {
+	font-family: 'Oxygen', sans-serif;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.tituloo5 {
+	font-family: 'Oxygen', sans-serif;
+	font-weight: 200;
+}
+
+.iconomio {
+	background: url("../image/miicono2.png")
+		no-repeat;
+	padding-left: 28px;
+}
+
+#navcc ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#navcc ul li {
+	display: inline;
+	margin: 90px;
+}
+
+#navcc ul li a {
+	color: white;
+} 
