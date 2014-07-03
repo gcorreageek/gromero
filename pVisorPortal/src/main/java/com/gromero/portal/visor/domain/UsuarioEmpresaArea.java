@@ -8,8 +8,10 @@ public class UsuarioEmpresaArea implements Serializable{
 	
 	private Integer idUsuarioEmpresaArea;
 	private Integer idUsuario;
-	private Integer idEmpresa;
-	private Integer idArea; 
+	private Integer idEmpresaArea; 
+	
+	private Usuario usuario;
+	private EmpresaArea empresaArea;
 	
 	public Integer getIdUsuarioEmpresaArea() {
 		return idUsuarioEmpresaArea;
@@ -23,22 +25,27 @@ public class UsuarioEmpresaArea implements Serializable{
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
 	}
-	public Integer getIdEmpresa() {
-		return idEmpresa;
+	public Integer getIdEmpresaArea() {
+		return idEmpresaArea;
 	}
-	public void setIdEmpresa(Integer idEmpresa) {
-		this.idEmpresa = idEmpresa;
+	public void setIdEmpresaArea(Integer idEmpresaArea) {
+		this.idEmpresaArea = idEmpresaArea;
 	}
-	public Integer getIdArea() {
-		return idArea;
+	public Usuario getUsuario() {
+		return usuario;
 	}
-	public void setIdArea(Integer idArea) {
-		this.idArea = idArea;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	public EmpresaArea getEmpresaArea() {
+		return empresaArea;
+	}
+	public void setEmpresaArea(EmpresaArea empresaArea) {
+		this.empresaArea = empresaArea;
 	}
 	
 	
-	
-	
+ 
 	
 
 }

@@ -7,8 +7,7 @@ public class Area implements Serializable{
 	private static final long serialVersionUID = 3684283378414350631L;
 	
 	private Integer idArea;
-	private String area;
-	private Integer idEmpresa;
+	private String area; 
 	private Integer tipoD;
 	
 	public Integer getIdArea() {
@@ -22,13 +21,7 @@ public class Area implements Serializable{
 	}
 	public void setArea(String area) {
 		this.area = area;
-	}
-	public Integer getIdEmpresa() {
-		return idEmpresa;
-	}
-	public void setIdEmpresa(Integer idEmpresa) {
-		this.idEmpresa = idEmpresa;
-	}
+	} 
 	public Integer getTipoD() {
 		return tipoD;
 	}

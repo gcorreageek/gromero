@@ -45,11 +45,11 @@
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="fa fa-gear"></span>
         </button>
-        <a class="navbar-brand" href="#"><span>Clean Zone</span></a>
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/inicio.html"><span>Clean Zone</span></a>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Inicio</a></li>
+          <li class="active"><a href="${pageContext.request.contextPath}/inicio.html">Inicio</a></li>
 <!--           <li><a href="#about">About</a></li> -->
 <!--           <li class="dropdown"> -->
 <!--             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact <b class="caret"></b></a> -->
@@ -96,13 +96,13 @@
         </ul>
     <ul class="nav navbar-nav navbar-right user-nav">
       <li class="dropdown profile_menu">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img alt="Avatar" src="${session_ruta}images/avatar2.jpg" /><span>Jeff Hanneman</span> <b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img alt="Avatar" src="${session_ruta}images/avatar2.jpg" /><span>${session_usuario.nombres}</span> <b class="caret"></b></a>
         <ul class="dropdown-menu">
 <!--           <li><a href="#">My Account</a></li> -->
 <!--           <li><a href="#">Profile</a></li> -->
 <!--           <li><a href="#">Messages</a></li> -->
 <!--           <li class="divider"></li> -->
-          <li><a href="#">Sign Out</a></li>
+          <li><a href="${pageContext.request.contextPath}/des_logueo.html">Sign Out</a></li>
         </ul>
       </li>
     </ul>			
@@ -176,19 +176,19 @@
             <div class="side-user">
               <div class="avatar"><img src="${session_ruta}images/avatar1_50.jpg" alt="Avatar" /></div>
               <div class="info">
-                <a href="#">Jeff Hanneman</a>
+                <a href="#">${session_usuario.nombres}</a>
                 <img src="${session_ruta}images/state_online.png" alt="Status" /> <span>Online</span>
               </div>
             </div>
             <ul class="cl-vnavigation">
 	              <li><a href="#"><i class="fa fa-home"></i><span>Intranet</span></a>
 	                <ul class="sub-menu">
-	                  <li class="active"><a href="index-2.html">Visor</a></li> 
+	                  <li class="active"><a href="${pageContext.request.contextPath}/i/visor/inicio.html">Visor</a></li> 
 	                </ul>
 	              </li>
 	              <li><a href="#"><i class="fa fa-home"></i><span>Extranet</span></a>
 	                <ul class="sub-menu">
-	                  <li class="active"><a href="index-2.html">Visor</a></li> 
+	                  <li class="active"><a href="${pageContext.request.contextPath}/e/visor/inicio.html">Visor</a></li> 
 	                </ul>
 	              </li>
 <!--               <li><a href="#"><i class="fa fa-home"></i><span>Dashboard</span></a> -->

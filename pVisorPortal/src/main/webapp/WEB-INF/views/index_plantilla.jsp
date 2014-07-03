@@ -4,7 +4,7 @@
 <div class="container-fluid" id="pcont">
 	<div class="cl-mcont">
 		<div class="row dash-cols">
-			<div class="col-sm-12 col-md-12">
+			<div class="col-sm-12 col-md-12"> 
 			    Lorem Ipsum es simplemente el
 				texto de relleno de las imprentas y archivos de texto. Lorem Ipsum
 				ha sido el texto de relleno estándar de las industrias desde el año

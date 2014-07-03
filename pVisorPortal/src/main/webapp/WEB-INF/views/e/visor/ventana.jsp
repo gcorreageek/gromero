@@ -35,7 +35,7 @@
 <c:url value="/resources/manual1.pdf" />
 <c:url value="/resources/manual1.pdf" />
 <!-- <hr id="hrArriba" > -->
-<embed src="<c:url value="/resources/manual.pdf" />" width="500" height="620">
+<embed src="<c:url value="/" />" width="500" height="620">
 <!-- <hr id="hrCostado" > -->
 
 <!-- <iframe src="http://docs.google.com/gview?url=http://victorpimentel.com/stuff/rubik.pdf&embedded=true" style="width:500px; height:375px;" frameborder="0"></iframe> -->
