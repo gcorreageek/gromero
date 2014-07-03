@@ -17,5 +17,11 @@ public class ExtranetVisorController {
 		return "/e/visor/visor_e";
 	}
 	
+	@RequestMapping("/ver_pdf.html")
+	private String verPdf(){
+		log.info(" Entro a Ver PDF");
+		return "/e/visor/ventana";
+	}
+	
 
 }

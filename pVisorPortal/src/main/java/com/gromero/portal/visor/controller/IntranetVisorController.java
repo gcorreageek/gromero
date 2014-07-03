@@ -16,6 +16,4 @@ public class IntranetVisorController {
 		log.info(" Entro a Intranet Inicio");
 		return "/i/visor/visor_i";
 	}
-	
-
 }

@@ -7,16 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<ul> 
-	<li>
-		<ul> 
-		    <li><a href="e/visor/inicio.html"     >Visor Extranet</a></li> 
-			<li><a href="i/visor/inicio.html"     >Visor Intranet</a></li>
-		</ul>
-	</li>
-</ul>
-
-
 
 </body>
 </html>

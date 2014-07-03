@@ -7,16 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<ul> 
-	<li>
-		<ul> 
-		    <li><a href="e/visor/inicio.html"     >Visor Extranet</a></li> 
-			<li><a href="i/visor/inicio.html"     >Visor Intranet</a></li>
-		</ul>
-	</li>
-</ul>
-
-
+<h2>La Ruta Lib Web es:${session_ruta}</h2>
+<br>
+<form action="ingresar_ruta_lib.html" method="post"   >
+	<input type="text" name="ruta" />
+	<input type="submit" value="Cambiar Ruta" >
+</form>
 
 </body>
 </html>

@@ -20,9 +20,9 @@
 			http://www.springframework.org/schema/jee
             http://www.springframework.org/schema/jee/spring-jee.xsd">
 						
-	<context:component-scan base-package="com.gromero.portal.visor.controller"  />
+	<context:component-scan base-package="com.gromero.portal.visor"  />
 	<mvc:annotation-driven /> 
-<!-- 	<mvc:resources mapping="/resources/**" location="/resources/template1/" /> -->
+	<mvc:resources mapping="/resources/**" location="/resources/template1/" />
  
  
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -38,16 +38,20 @@
 		<property name="password" value="${jdbc.password}" />
 	</bean> 
 	
-	<bean id="myEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="jdbcTemplate1" />
-		<property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
-             p:database="${jpa.database}" p:showSql="${jpa.showSql}"  /> 
-        </property>   
-        <property name="persistenceUnitName" value="persistenteGRomeroPortal"/> 
-	</bean>   
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="myEntityManagerFactory"  />
-	</bean> 
-	<tx:annotation-driven   />
+	<bean   class="org.springframework.jdbc.core.JdbcTemplate"> 
+		<constructor-arg><ref bean="jdbcTemplate1" /></constructor-arg>
+	</bean>
+	
+<!-- 	<bean id="myEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> -->
+<!-- 		<property name="dataSource" ref="jdbcTemplate1" /> -->
+<!-- 		<property name="jpaVendorAdapter"> -->
+<!--             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" -->
+<!--              p:database="${jpa.database}" p:showSql="${jpa.showSql}"  />  -->
+<!--         </property>    -->
+<!--         <property name="persistenceUnitName" value="persistenteGRomeroPortal"/>  -->
+<!-- 	</bean>    -->
+<!-- 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> -->
+<!-- 		<property name="entityManagerFactory" ref="myEntityManagerFactory"  /> -->
+<!-- 	</bean>  -->
+<!-- 	<tx:annotation-driven   /> -->
 </beans>
