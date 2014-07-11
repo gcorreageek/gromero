@@ -1,0 +1,207 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.gromero.portal.visor</groupId>
+  <artifactId>pVisorPortalSpringMVCSpringJDBC</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>pVisorPortal</name>
+  <url>http://maven.apache.org</url> 
+    <properties>
+<!--     3.2.7.RELEASE -->
+<!--     3.2.3.RELEASE --> 
+		<spring.version>3.2.3.RELEASE</spring.version>
+		<junit.version>4.11</junit.version>
+		<jdk.version>1.6</jdk.version>
+		<sitemesh.version>3.0-alpha-2</sitemesh.version>
+		<aspectj.version>1.6.12</aspectj.version> 
+		<hibernate.version>4.2.2.Final</hibernate.version>
+	</properties>
+<!-- 	<parent> -->
+<!-- 		<groupId>com.ransa.portal</groupId> -->
+<!-- 		<artifactId>ransa-parent-swtms</artifactId> -->
+<!-- 		<version>1.0-SNAPSHOT</version> -->
+<!-- 	</parent> -->
+ 
+	<dependencies>
+		<!-- Just features of project -->
+		<dependency>
+		  <groupId>org.apache.pdfbox</groupId>
+		  <artifactId>pdfbox</artifactId>
+		  <version>1.8.6</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jt400</groupId>
+			<artifactId>jt400</artifactId>
+			<version>6.6</version>
+		</dependency>
+		
+	
+		<!-- Spring -->  
+ 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>  
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>  
+		 <!-- Spring Hibernate,SpringJDBC -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-orm</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>  
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency> 
+<!-- 		org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'myEntityManagerFactory' defined in class path resource [META-INF/spring/spring-context.xml]: Cannot create inner bean 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#1a2c58b5' of type [org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter] while setting bean property 'jpaVendorAdapter'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#1a2c58b5' defined in class path resource [META-INF/spring/spring-context.xml]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Could not instantiate bean class [org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter]: Constructor threw exception; nested exception is java.lang.NoClassDefFoundError: org/hibernate/ejb/HibernatePersistence -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency> 
+		
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax.persistence</groupId> -->
+<!-- 			<artifactId>persistence-api</artifactId> -->
+<!-- 			<version>1.0</version> -->
+<!-- 		</dependency>   -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax.transaction</groupId> -->
+<!-- 			<artifactId>jta</artifactId> -->
+<!-- 			<version>1.1</version> -->
+<!-- 		</dependency>   -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax.validation</groupId> -->
+<!-- 			<artifactId>validation-api</artifactId> -->
+<!-- 			<version>1.0.0.GA</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>cglib</groupId> -->
+<!-- 			<artifactId>cglib-nodep</artifactId> -->
+<!-- 			<version>2.2.2</version> -->
+<!-- 		</dependency>  -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>cglib</groupId> -->
+<!-- 			<artifactId>cglib</artifactId> -->
+<!-- 			<version>2.2.2</version> -->
+<!-- 		</dependency>  -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.aspectj</groupId> -->
+<!-- 			<artifactId>aspectjrt</artifactId> -->
+<!-- 			<version>${aspectj.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.aspectj</groupId> -->
+<!-- 			<artifactId>aspectjweaver</artifactId> -->
+<!-- 			<version>${aspectj.version}</version> -->
+<!-- 		</dependency> --> 
+		 <!-- Spring AOP -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework</groupId> -->
+<!-- 			<artifactId>spring-aspects</artifactId> -->
+<!-- 			<version>${spring.version}</version> -->
+<!-- 		</dependency> --> 
+		
+        <!-- Obvio -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.3</version>
+		</dependency> 
+        <dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.18</version>
+        </dependency>
+        <dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+        <!-- Loggg -->
+		<!-- CUIDADO:El jar de log4j version=1.2.9, no funciona por el commnos-logging,los archivos properties configurados -->
+        <dependency>
+		    <groupId>log4j</groupId>
+		    <artifactId>log4j</artifactId>
+		    <version>1.2.14</version>
+		</dependency>
+        <!-- Vista -->
+<!--         <dependency> -->
+<!-- 		 <groupId>org.sitemesh</groupId> -->
+<!-- 		 <artifactId>sitemesh</artifactId> -->
+<!-- 		 <version>${sitemesh.version}</version> -->
+<!-- 		</dependency>  -->
+<!-- 		<dependency> -->
+<!-- 		 <groupId>org.sitemesh</groupId> -->
+<!-- 		 <artifactId>sitemesh</artifactId> -->
+<!-- 		 <version>${sitemesh.version}</version> -->
+<!-- 		</dependency>  -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.apache.tiles</groupId> -->
+<!-- 		    <artifactId>tiles-extras</artifactId> -->
+<!-- 		    <version>3.0.4</version> -->
+<!-- 		</dependency> -->
+	<!-- JSTL --> 
+	<dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+	<dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency> 
+<!--     <dependency> -->
+<!-- 		<groupId>javax.servlet.jsp.jstl</groupId> -->
+<!-- 		<artifactId>jstl-api</artifactId> -->
+<!-- 		<version>1.2</version> -->
+<!-- 	</dependency> -->
+<!-- 	<dependency> -->
+<!-- 		<groupId>org.glassfish.web</groupId> -->
+<!-- 		<artifactId>jstl-impl</artifactId> -->
+<!-- 		<version>1.2</version> -->
+<!-- 	</dependency>   -->
+<!-- 	<dependency> -->
+<!-- 		<groupId>javax.servlet</groupId> -->
+<!-- 		<artifactId>jstl</artifactId> -->
+<!-- 		<version>1.1.2</version> -->
+<!-- 	</dependency> -->
+<!--      <dependency> -->
+<!-- 		<groupId>taglibs</groupId> -->
+<!-- 		<artifactId>standard</artifactId> -->
+<!-- 		<version>1.1.2</version> -->
+<!-- 	</dependency> --> 
+	</dependencies>
+	<build>
+		<finalName>pVisorPortal</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+  
+  
+  
+   
+</project>
