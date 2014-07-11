@@ -1,0 +1,5 @@
+package pe.com.silex.service;
+
+public interface ConsultaService {
+
+}

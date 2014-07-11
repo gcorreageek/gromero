@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>app-batch-silex</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<context-param>
+				<param-name>contextConfigLocation</param-name>
+				<param-value>
+				classpath:applicationContext-support.xml,
+				classpath:applicationContext-jdbc.xml,
+				classpath:applicationContext-common.xml,
+				classpath:applicationContext-quartz.xml
+				</param-value>
+	</context-param>
+	<!-- Archivo de configuracion para log4j -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+<!-- 		<param-value>file:/Apps/EnterpriseApplications_v8/app-batch-silex/log4j.properties</param-value> -->
+		<param-value>file:///C:/MDP/log4j.properties</param-value>								
+	</context-param>
+	<!-- Listener para log4j integrado con spring -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	
+	<!-- Listener para el core de spring -->
+	<listener>
+    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  	</listener>
+</web-app>
