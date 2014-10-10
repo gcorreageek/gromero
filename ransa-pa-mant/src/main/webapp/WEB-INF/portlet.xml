@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd
+                      http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+  id="com.ransa.pa.mantprimax">
+  
+   <portlet>
+  		<description>MantPrimaxClienteCuentaPortlet</description>
+		<portlet-name>MantPrimaxClienteCuentaPortlet</portlet-name>
+	    <display-name>MantPrimaxClienteCuentaPortlet</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+		  <name>contextConfigLocation</name>
+		  <value>classpath:/spring/portlet-MantPrimaxClienteCuenta.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports> 	
+		<portlet-info>
+			<title>Mantenimiento Primax Cliente Cuenta</title>
+			<short-title>mantPrimaxClienteCuenta</short-title>
+			<keywords>mant, mantenimiento, primax</keywords>
+		</portlet-info>
+		<portlet-preferences>
+            <preference><name>registrosPagina</name><value>10</value></preference>
+         </portlet-preferences>
+	</portlet>
+	<portlet>
+  		<description>MantPrimaxEmpresaAreaTDPortlet</description>
+		<portlet-name>MantPrimaxEmpresaAreaTDPortlet</portlet-name>
+	    <display-name>MantPrimaxEmpresaAreaTDPortlet</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+		  <name>contextConfigLocation</name>
+		  <value>classpath:/spring/portlet-MantPrimaxEmpresaAreaTD.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports> 	
+		<portlet-info>
+			<title>Mantenimiento Primax EmpresaAreaTD</title>
+			<short-title>mantPrimaxEmpresaAreaTD</short-title>
+			<keywords>mant, mantenimiento, primax</keywords>
+		</portlet-info>
+		<portlet-preferences>
+            <preference><name>registrosPagina</name><value>10</value></preference>
+         </portlet-preferences>
+	</portlet>
+	<portlet>
+  		<description>MantPrimaxAccesoUsuarioPortlet</description>
+		<portlet-name>MantPrimaxAccesoUsuarioPortlet</portlet-name>
+	    <display-name>MantPrimaxAccesoUsuarioPortlet</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+		  <name>contextConfigLocation</name>
+		  <value>classpath:/spring/portlet-MantPrimaxAccesoUsuario.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports> 	
+		<portlet-info>
+			<title>Mantenimiento Primax Acceso Usuario</title>
+			<short-title>mantPrimaxAccesoUsuario</short-title>
+			<keywords>mant, mantenimiento, primax</keywords>
+		</portlet-info>
+		<portlet-preferences>
+            <preference><name>registrosPagina</name><value>10</value></preference>
+         </portlet-preferences>
+	</portlet>
+ 
+	
+
+</portlet-app>

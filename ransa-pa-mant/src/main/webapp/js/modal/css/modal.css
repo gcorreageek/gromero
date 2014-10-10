@@ -1,0 +1,107 @@
+.titulo-modal{
+	background-color:#c30118;
+	background-image:url(resources/images/bg-modal-head.png);
+	background-repeat:repeat-x;
+	
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#FFF;
+	padding:7px;
+
+
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-bottomleft: 0px;
+
+	-webkit-border-bottom-right-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-topleft: 5px;
+
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	
+/*	-webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 5px;*/
+   -webkit-box-shadow: rgba(0,0,0,0) 0 0px 0;
+   -moz-box-shadow: rgba(0,0,0,0) 0 0px 0;
+	}
+
+/*INI MSJ ALERTAS*/
+.info, .exito, .alerta, .error {
+       font-family:Arial, Helvetica, sans-serif; 
+       font-size:13px;
+       border: 1px solid;
+       margin: 10px 0px;
+       padding:15px 10px 15px 50px;
+       background-repeat: no-repeat;
+       background-position: 10px center;
+       position:relative;
+}
+.info {
+       color: #00529B;
+       background-color: #BDE5F8;
+       background-image: url('../images/icon-atencion2.png');
+}
+.exito {
+       color: #4F8A10;
+       background-color: #DFF2BF;
+       background-image:url('../images/icon-valido.png');
+}
+.alerta {
+       color: #9F6000;
+       background-color: #FEEFB3;
+       background-image: url('../images/icon-atencion.png');
+}
+.error {
+       color: #D8000C;
+       background-color: #FFBABA;
+       background-image: url('../images/icon-error.png');
+}
+/*FIN MSJ ALERTAS*/
+
+/*---------INI MODAL------------*/
+    .modal {
+    background-color:#fff;
+    display:none;
+    /*width:1450px;*/
+	margin:auto;
+    padding:0px;
+	padding-bottom:18px;
+    text-align:left;
+    border:1px solid #ffffff;
+
+
+
+    opacity:0.99;
+/*    -moz-border-radius:6px;
+    -webkit-border-radius:6px;*/
+   -webkit-border-radius: 6px;
+   -moz-border-radius: 6px;
+   border-radius: 6px;
+   -webkit-box-shadow: rgba(0,0,0,0) 0 0px 0;
+   -moz-box-shadow: rgba(0,0,0,0) 0 0px 0;
+   box-shadow: rgba(0,0,0,0) 0 1px 0;
+	
+	
+	
+    -moz-box-shadow: 0 0 30px #000000;
+    -webkit-box-shadow: 0 0 30px #000000;
+  }
+
+  .modal h2 {
+    background:url(/media/img/global/info.png) 0 50% no-repeat;
+    margin:10px;
+    padding:10px 0 10px 45px;
+    border-bottom:1px solid #333;
+    font-size:20px;
+  }
+  /*---------FIN MODAL------------*/
