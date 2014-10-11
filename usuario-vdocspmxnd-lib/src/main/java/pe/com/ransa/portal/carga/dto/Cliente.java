@@ -41,6 +41,8 @@ public class Cliente extends AuditoriaTabla implements Serializable {
 	private int records; 
 	private String success;
 	
+	private UsuarioDTO  usuarioDto;
+	
 	
 	public int getPage() {
 		return page;
@@ -132,6 +134,12 @@ public class Cliente extends AuditoriaTabla implements Serializable {
 	}
 	public void setMensajeRuc(String mensajeRuc) {
 		this.mensajeRuc = mensajeRuc;
+	}
+	public UsuarioDTO getUsuarioDto() {
+		return usuarioDto;
+	}
+	public void setUsuarioDto(UsuarioDTO usuarioDto) {
+		this.usuarioDto = usuarioDto;
 	}
 	
  

@@ -56,7 +56,15 @@ public class ClienteServiceImpl implements ClienteService {
 	}
 	
 	public Cliente registrarUsuarioCliente(Cliente cliente,String usuario) {
-		cliente = clienteDao.ingresarUsuarioCliente(cliente, usuario);
+		try {
+			cliente = clienteDao.ingresarUsuarioCliente(cliente, usuario);
+			cliente.setSeGuardo(true); 
+		} catch (Exception e) {
+			cliente.setCodigoError(ConstantesLib.CODERROR_INESPERADO);
+			cliente.setThrowable(e);
+			cliente.setSeGuardo(false); 
+			logger.error("[registrarUsuarioCliente]",e);
+		}
 		return cliente;
 	}  
 	public Object registrarUsuarioCliente(List<Cliente> clientes) {
@@ -262,13 +270,14 @@ public class ClienteServiceImpl implements ClienteService {
 		}
 		return cliente;
 	}
-
+ 
 	public Boolean tieneUsuarioClienteActivos(BigInteger idCliente) {
 		boolean tieneUsuarioClienteActivos = false;
 		try {
 			Cliente cliente = new Cliente();
 			cliente.setId(idCliente);
-			List<Cliente> lCliente = clienteDao.listarClienteUsuario(cliente, 0, 10);
+			cliente.setUsuario("");
+			List<Cliente> lCliente = clienteDao.listarClienteUsuario(cliente);
 			for (Cliente cli : lCliente) {
 				if(cli.getEstado().equals(ConstantesLib.ACTIVO)){
 					tieneUsuarioClienteActivos = true;

@@ -17,14 +17,13 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import com.ibm.ws.ssl.commands.SSLConfig.GetInheritedSSLConfig;
-
 import pe.com.ransa.portal.carga.dao.UsuarioDTODao;
 import pe.com.ransa.portal.carga.dao.mapper.AccesoCuentaMapper;
 import pe.com.ransa.portal.carga.dao.mapper.AccesoDocumentosMapper;
 import pe.com.ransa.portal.carga.dao.mapper.CantidadAPRMapper;
 import pe.com.ransa.portal.carga.dao.mapper.UsuarioDTOMapper;
 import pe.com.ransa.portal.carga.dto.Area;
+import pe.com.ransa.portal.carga.dto.Cliente;
 import pe.com.ransa.portal.carga.dto.Cuenta;
 import pe.com.ransa.portal.carga.dto.Empresa;
 import pe.com.ransa.portal.carga.dto.TipoDocumental;
@@ -145,13 +144,14 @@ public class UsuarioDTODaoImpl implements UsuarioDTODao {
 		return totalTD;
 	}
 	public List<Cuenta> listar(Cuenta cuenta, Integer inicio, Integer fin) {
-		logger.debug("===>"+cuenta.getUsuarioDto().getIdUsuario()+"|"+inicio+"|"+fin);
+		logger.debug("===>"+cuenta.getEstado()+"|"+cuenta.getUsuarioDto().getIdUsuario()+"|"+inicio+"|"+fin);
 		List<Cuenta> lCuenta = null;
-		try {//IN P_ID_CLI BIGINT,IN P_ID_CUENTA BIGINT
+		try {
 			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withSchemaName("VDOCS")
 			.withProcedureName("SP_LISTAR_ACCESOCUENTAS")
 			.returningResultSet("acceso_cuentas", new AccesoCuentaMapper());
 			SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+			.addValue("P_ESTADO", cuenta.getEstado()) 
 			.addValue("P_IDUSUARIO", cuenta.getUsuarioDto().getIdUsuario()) 
 			.addValue("P_ID_CLI", cuenta.getIdCliente()) 
 			.addValue("P_ID_CUENTA", cuenta.getIdCuenta()) 
@@ -165,7 +165,7 @@ public class UsuarioDTODaoImpl implements UsuarioDTODao {
 			logger.error("[Exception]",e);
 		}  
 		return lCuenta;
-	}
+	} 
 	public Integer total(Cuenta cuenta) {
 		Integer totalTD=null;
 		try {
@@ -173,6 +173,7 @@ public class UsuarioDTODaoImpl implements UsuarioDTODao {
 			.withProcedureName("SP_GET_TOTAL_LISTAR_ACCESOCUENTAS")
 			.returningResultSet("totalAccesoCuentas", new CantidadAPRMapper());
 			SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+			.addValue("P_ESTADO", cuenta.getEstado())
 			.addValue("P_IDUSUARIO", cuenta.getUsuarioDto().getIdUsuario())
 			.addValue("P_ID_CLI", cuenta.getIdCliente()) 
 			.addValue("P_ID_CUENTA", cuenta.getIdCuenta()) ;
@@ -183,7 +184,6 @@ public class UsuarioDTODaoImpl implements UsuarioDTODao {
 		} catch (Exception e) {
 			logger.error("[Exception]",e);
 		} 
-		logger.debug("totalTD:"+totalTD);
 		return totalTD;
 	}
 	public List<TipoDocumental> listarTipoDocumentalEmpresaUsuario( TipoDocumental td, Integer inicio, Integer fin)throws Exception {
@@ -291,6 +291,90 @@ public class UsuarioDTODaoImpl implements UsuarioDTODao {
 		 out = jdbcCall.withSchemaName("VDOCS").withProcedureName("SP_ELIMINAR_EMPRESAAREATDUSUARIO").execute(in);
 		 logger.debug("MAP=>"+ Arrays.toString(out.entrySet().toArray()));
 		return td; 
+	}
+	public List<Cuenta> listarClienteCuenta(Cuenta cuenta, Integer inicio, Integer fin) {
+		logger.debug("===>"+cuenta.getCliente().getRUC()+"|"+cuenta.getCliente().getRazonSocial()+"|"+cuenta.getNumeroCuenta()+"|"+cuenta.getEstado()+"|"+cuenta.getIdCuenta()+"|"+cuenta.getIdCliente()+"|"+inicio+"|"+fin);
+		List<Cuenta> lCuenta = null;
+		try {
+			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withSchemaName("VDOCSPMXND")
+			.withProcedureName("SP_LISTAR_CUENTASCLIENTES")
+			.returningResultSet("listar_cuentacliente", new RowMapper<Cuenta>() {
+				public Cuenta mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Cuenta c = new Cuenta();
+					c.setIdCuenta(rs.getBigDecimal("ID_CUENTA").toBigInteger());
+					c.setNumeroCuenta(rs.getString("NRO_CUENTA"));
+					Cliente cliente = new Cliente();
+					cliente.setId(rs.getBigDecimal("ID_CLI").toBigInteger());
+					cliente.setRUC(rs.getString("RUC"));
+					cliente.setRazonSocial(rs.getString("RAZON_SOCIAL"));
+					c.setIdCliente(rs.getBigDecimal("ID_CLI").toBigInteger());
+					c.setCliente(cliente);
+					return c;
+				}
+			});
+			SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+			.addValue("P_ID_RUC", cuenta.getCliente().getRUC()) 
+			.addValue("P_NRO_CUENTA", cuenta.getNumeroCuenta()) 
+			.addValue("P_RAZON_SOCIAL", cuenta.getCliente().getRazonSocial()) 
+			.addValue("IN_ESTADO", cuenta.getEstado())  
+			.addValue("P_INICIO_RESULTADO", inicio)
+			.addValue("P_FIN_RESULTADO", fin);
+			
+			Map<String, Object> resultado = simpleJdbcCall.execute(sqlParameterSource);
+			lCuenta = (List<Cuenta> ) resultado.get("listar_cuentacliente");	
+//			logger.debug("lCuenta:"+lCuenta.size());
+		} catch (Exception e) {
+			logger.error("[Exception]",e);
+		}  
+		return lCuenta;
+	}
+	public Integer totalClienteCuenta(Cuenta cuenta) {
+		Integer totalTD=null;
+		try {
+			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withSchemaName("VDOCSPMXND")
+			.withProcedureName("SP_GET_TOTAL_LISTAR_CUENTASCLIENTES")
+			.returningResultSet("total_cuentacliente", new CantidadAPRMapper());
+			SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+			.addValue("P_ID_RUC", cuenta.getCliente().getRUC()) 
+			.addValue("P_NRO_CUENTA", cuenta.getNumeroCuenta()) 
+			.addValue("P_RAZON_SOCIAL", cuenta.getCliente().getRazonSocial()) 
+			.addValue("IN_ESTADO", cuenta.getEstado())  ;
+			
+			Map<String, Object> resultado = simpleJdbcCall.execute(sqlParameterSource);
+			List<Long> total = (List<Long>) resultado.get("total_cuentacliente");
+			totalTD =  total.get(0).intValue();	
+		} catch (Exception e) {
+			logger.error("[Exception]",e);
+		} 
+		logger.debug("totalTD:"+totalTD);
+		return totalTD;
+	}
+	public Cliente eliminarClienteUsuario(Cliente cliente) throws Exception {
+		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(this.jdbcTemplate);
+		SqlParameterSource in = new MapSqlParameterSource() 
+		.addValue("IN_ESTADO", cliente.getEstado()) 
+		.addValue("IN_FECHA_MODIFICACION", cliente.getFechaModificacion())
+		.addValue("IN_USUARIO_MODIFICACION",  cliente.getUsuarioModificacion())
+		.addValue("IN_IDUSUARIO", cliente.getUsuarioDto().getIdUsuario())
+		.addValue("IN_ID_CLI", cliente.getId());
+		 Map<String, Object> out  = null;
+		 out = jdbcCall.withSchemaName("VDOCSPMXND").withProcedureName("SP_ELIMINAR_USUARIOCLIENTE").execute(in);
+		 logger.debug("MAP=>"+ Arrays.toString(out.entrySet().toArray()));
+		return cliente; 
+	}
+	public Cuenta eliminarCuentaUsuario(Cuenta cuenta) throws Exception {
+		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(this.jdbcTemplate);
+		SqlParameterSource in = new MapSqlParameterSource() 
+		.addValue("IN_ESTADO", cuenta.getEstado()) 
+		.addValue("IN_FECHA_MODIFICACION", cuenta.getFechaModificacion())
+		.addValue("IN_USUARIO_MODIFICACION",  cuenta.getUsuarioModificacion())
+		.addValue("IN_IDUSUARIO", cuenta.getUsuarioDto().getIdUsuario())
+		.addValue("IN_ID_CLI", cuenta.getCliente().getId())
+		.addValue("IN_ID_CUENTA", cuenta.getIdCuenta());
+		 Map<String, Object> out  = null;
+		 out = jdbcCall.withSchemaName("VDOCSPMXND").withProcedureName("SP_ELIMINAR_USUARIOCUENTA").execute(in);
+		 logger.debug("MAP=>"+ Arrays.toString(out.entrySet().toArray()));
+		return cuenta; 
 	}
  
  

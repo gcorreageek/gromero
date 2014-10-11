@@ -8,6 +8,7 @@ import javax.portlet.PortletRequest;
 import com.ransa.portal.model.Usuario;
 
 import pe.com.ransa.portal.carga.dto.Area;
+import pe.com.ransa.portal.carga.dto.Cliente;
 import pe.com.ransa.portal.carga.dto.Cuenta;
 import pe.com.ransa.portal.carga.dto.Empresa;
 import pe.com.ransa.portal.carga.dto.TipoDocumental;
@@ -32,6 +33,17 @@ public interface UsuarioService {
 	
 	public List<TipoDocumental> ingresarUsuarioTdEmpresaArea(String idUsuario,String[] ids);
 	
+	public List<Cuenta> ingresarUsuarioClienteCuenta(String idUsuario,String[] ids);
+	
 	public TipoDocumental eliminarTipoDocumentalAreaEmpresaUsuario(UsuarioDTO usuarioDto, Empresa empresa, Area area, TipoDocumental td);
+	
+	
+	
+	public List<Cuenta> listarClienteCuentaActivas(Cuenta cuenta);
+	public Integer totalClienteCuentaActivas(Cuenta cuenta);
+
+	public Cuenta eliminarClienteCuentaUsuario(UsuarioDTO usuarioDto,
+			Cliente cliente, Cuenta cuenta);
+	
 	
 }

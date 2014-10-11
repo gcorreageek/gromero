@@ -27,17 +27,17 @@ import pe.com.ransa.portal.carga.common.ConstantesLib;
 import pe.com.ransa.portal.carga.common.ConstantesMant;
 import pe.com.ransa.portal.carga.common.Mappings;
 import pe.com.ransa.portal.carga.dto.Area;
+import pe.com.ransa.portal.carga.dto.Cliente;
 import pe.com.ransa.portal.carga.dto.Cuenta;
 import pe.com.ransa.portal.carga.dto.Empresa;
-import pe.com.ransa.portal.carga.dto.EmpresaAreaUsuario;
-import pe.com.ransa.portal.carga.dto.EmpresaUsuario;
 import pe.com.ransa.portal.carga.dto.JqGridDataCuenta;
 import pe.com.ransa.portal.carga.dto.JqGridDataTipoDocumental;
 import pe.com.ransa.portal.carga.dto.JqGridDataUsuario;
 import pe.com.ransa.portal.carga.dto.Resultado;
-import pe.com.ransa.portal.carga.dto.TipoDocEmpresaAreaUsuario;
 import pe.com.ransa.portal.carga.dto.TipoDocumental;
 import pe.com.ransa.portal.carga.dto.UsuarioDTO;
+import pe.com.ransa.portal.carga.service.ClienteService;
+import pe.com.ransa.portal.carga.service.CuentaService;
 import pe.com.ransa.portal.carga.service.TipoDocumentalService;
 import pe.com.ransa.portal.carga.service.UsuarioService;
 import pe.com.ransa.portal.carga.service.VDocsService;
@@ -60,6 +60,11 @@ public class MantPrimaxAccesoUsuarioController {
 	TipoDocumentalService tdService;
 	@Autowired
 	VDocsService vdocsService;
+	@Autowired
+	CuentaService cuentaService;
+	@Autowired
+	ClienteService clienteService;
+	
 	
 	@RequestMapping
 	public String index(RenderRequest renderRequest, RenderResponse renderResponse, Model model){
@@ -186,7 +191,7 @@ public class MantPrimaxAccesoUsuarioController {
 			cantidadRegistros  = lTd.size();
 			int c=1;
 			for (TipoDocumental tipoDocumental : lTd) {
-				logger.debug(fromRegistro+"<="+c+"&&"+toRegistro+">="+c+"\t\t"+(fromRegistro<=c  && toRegistro>=c));
+//				logger.debug(fromRegistro+"<="+c+"&&"+toRegistro+">="+c+"\t\t"+(fromRegistro<=c  && toRegistro>=c));
 				if(fromRegistro<=c  && toRegistro>=c ){
 					logger.debug("registra!");
 					lTdNuevaPaginada.add(tipoDocumental);
@@ -228,6 +233,7 @@ public class MantPrimaxAccesoUsuarioController {
 			}
 		} 
 		resultado.setSeGuardo(contadorDeErrores<1);
+		resultado.setMensajeError(contadorDeErrores+"");
 		resultado.setCodigoError(ConstantesLib.CODERROR_ACCESO_TD_NOSEINGRESARONVARIOS);
 		escribeResultado(response, resultado);
 	}
@@ -275,18 +281,21 @@ public class MantPrimaxAccesoUsuarioController {
 		resultado.setCodigoError(tdRes.getCodigoError());
 		escribeResultado(response, resultado);
 	}
-	
+	/**
+	 * Cuentas
+	 */
 	@ResourceMapping(value=Mappings.LISTAR_ACCESOCUENTAS_RESOURCE)
 	public void obtenerListaAccesoCuentasResource(ResourceRequest request, ResourceResponse response,   
 			@RequestParam("page") int page, @RequestParam("rows") int limit ,
-			@RequestParam("txtIdUsuario") String idUsuario){ 
+			@RequestParam("txtIdUsuario") String idUsuario,@RequestParam("estado") String estado){ 
 		logger.debug("JSON:obtenerListaAccesoCuentasResource");
-		logger.debug("page=>"+page+"rows=>"+limit+"idUsuario=>"+idUsuario); 
+		logger.debug("page=>"+page+"rows=>"+limit+"idUsuario=>"+idUsuario+"|Estado:"+estado); 
 		int rows = limit; 
 		Cuenta cuenta = new Cuenta();
 		UsuarioDTO usuario = new UsuarioDTO();
-		usuario.setIdUsuario(idUsuario.toUpperCase()); 
+		usuario.setIdUsuario(idUsuario); 
 		cuenta.setUsuarioDto(usuario);
+		cuenta.setEstado(estado);
 		
 		int fromRegistro = ((page-1) * rows) + 1;
 		int toRegistro = fromRegistro + rows - 1;
@@ -312,7 +321,118 @@ public class MantPrimaxAccesoUsuarioController {
 			logger.error("error al mandar gson:", e);
 		}
 	} 
-	
+	@ResourceMapping(value=Mappings.LISTAR_CLIENTECUENTAS_RESOURCE)
+	public void obtenerListaClienteCuentasResource(ResourceRequest request, ResourceResponse response,   
+			@RequestParam("page") int page, @RequestParam("rows") int limit ,
+			@RequestParam("txtRucMantCuentasFiltro") String ruc,@RequestParam("txtNroCuentaMantCuentasFiltro") String nroCuenta,
+			@RequestParam("txtRazonSocialMantCuentasFiltro") String razonSocial, @RequestParam("txtIdUsuario") String idUsuario){
+		logger.debug("JSON:obtenerListaClienteCuentasResource");
+		logger.debug("page=>"+page+"rows=>"+limit+"|txtIdUsuario:"+idUsuario+"|ruc:"+ruc+"|nroCuenta:"+nroCuenta+"|razonSocial:"+razonSocial); 
+		int rows = limit; 
+		Cuenta cuenta = new Cuenta();  
+		Cliente cliente = new Cliente();
+		cliente.setRUC(ruc==null?"":ruc);
+		cliente.setRazonSocial(razonSocial==null?"":razonSocial);
+		cuenta.setCliente(cliente);
+		cuenta.setNumeroCuenta(nroCuenta==null?"":nroCuenta);
+		UsuarioDTO usuarioDto = new UsuarioDTO();
+		usuarioDto.setIdUsuario(idUsuario);
+		cuenta.setUsuarioDto(usuarioDto);
+		
+		int fromRegistro = ((page-1) * rows) + 1;
+		int toRegistro = fromRegistro + rows - 1;
+		List<Cuenta> lCuentaNuevo = new ArrayList<Cuenta>();
+		List<Cuenta> lTd = null;
+		Integer cantidadRegistros = null;
+		if(idUsuario.equals("")){
+			cantidadRegistros = 0;
+			lTd = new ArrayList<Cuenta>();
+		}else{
+			lTd =usuarioService.listarClienteCuentaActivas(cuenta);
+			cantidadRegistros = lTd.size();
+			logger.debug("cantidad:"+cantidadRegistros);
+		}
+		int c = 1;
+		for (Cuenta cuenta2 : lTd) { 
+			if(fromRegistro<=c &&  toRegistro>=c){
+				lCuentaNuevo.add(cuenta2);
+			}
+			c++;
+		}
+		JqGridDataCuenta objJqGrid = new JqGridDataCuenta();
+		if(lTd != null && !lTd.isEmpty()){
+			objJqGrid.setPage(page);
+			objJqGrid.setTotal(((cantidadRegistros + rows - 1) / rows));
+			objJqGrid.setRecords(cantidadRegistros);
+			
+			objJqGrid.setRows(lCuentaNuevo);
+			objJqGrid.setSuccess(ConstantesMant.ESTADO_OK);
+		}else{
+			objJqGrid.setSuccess(ConstantesMant.ESTADO_ERR);
+		} 
+		Gson gson = new GsonBuilder().create();
+		try {
+			response.getWriter().write(gson.toJson(objJqGrid));
+		} catch (IOException e) {
+			logger.error("error al mandar gson:", e);
+		}
+	} 
+	 
+	@ResourceMapping(value=Mappings.GUARDAR_CUENTACLIENTE_USUARIO)
+	public void guardarCuentaClienteUsuario(ResourceRequest request, ResourceResponse response,  
+			@RequestParam("idClienteidCuenta") String[] idClienteidCuenta,
+			@RequestParam("txtIdUsuario") String idUsuario){
+		logger.info("JSON:guardarCuentaClienteUsuario"); 
+		logger.debug("idClienteidCuenta:"+Arrays.toString(idClienteidCuenta)+"|idUsuario:"+idUsuario);
+		Resultado resultado = new Resultado();
+		List<Cuenta> lCuenta=  usuarioService.ingresarUsuarioClienteCuenta(idUsuario.toUpperCase(), idClienteidCuenta);
+		int contadorDeErrores=0;
+		for (Cuenta cuenta : lCuenta) {
+			if(!cuenta.isSeGuardo()) {
+				contadorDeErrores++;
+			}
+		} 
+		resultado.setSeGuardo(contadorDeErrores<1);
+		resultado.setMensajeError(contadorDeErrores+"");
+		resultado.setCodigoError(ConstantesLib.CODERROR_ACCESO_TD_NOSEINGRESARONVARIOS);
+		escribeResultado(response, resultado);
+	}
+	@ResourceMapping(value=Mappings.ELIMINAR_ACCESOUSUARIOCUENTA)
+	public void eliminarCuentaUsuario(ResourceRequest request, ResourceResponse response,  
+			@RequestParam("txtIdUsuario") String idUsuario,@RequestParam("cboEstadoCuentaUsuario") String cboEstadoCuentaUsuario,
+			@RequestParam("idClienteidCuenta") String idClienteidCuenta ){
+		logger.info("JSON:eliminarTipoDocumentalUsuario"); 
+		Resultado resultado = new Resultado();
+		logger.debug("URLS:"+idUsuario+"!"+idClienteidCuenta);
+		String[] ids = idClienteidCuenta.split("-");
+		String idCliente = ids[0];
+		String idCuenta = ids[1]; 
+		
+		UsuarioDTO  usuarioDto = new UsuarioDTO();
+		usuarioDto.setIdUsuario(idUsuario.toUpperCase());
+		
+		Cliente cliente = new Cliente();
+		cliente.setId(new BigInteger(idCliente));
+		cliente.setUsuarioDto(usuarioDto);
+		cliente.setFechaModificacion(new Date());
+		cliente.setUsuarioModificacion(ConstantesMant.USUARIO_DEFAULT);
+		cliente.setEstado(cboEstadoCuentaUsuario);
+		
+		Cuenta cuenta = new Cuenta();
+		cuenta.setIdCuenta(new BigInteger(idCuenta));
+		cuenta.setCliente(cliente);
+		cuenta.setUsuarioDto(usuarioDto);
+		cuenta.setFechaModificacion(new Date());
+		cuenta.setUsuarioModificacion(ConstantesMant.USUARIO_DEFAULT);
+		cuenta.setEstado(cboEstadoCuentaUsuario);
+ 
+		
+		Cuenta  tdRes = usuarioService.eliminarClienteCuentaUsuario(usuarioDto, cliente, cuenta);
+ 
+		resultado.setSeGuardo(tdRes.isSeGuardo());
+		resultado.setCodigoError(tdRes.getCodigoError());
+		escribeResultado(response, resultado);
+	}
  
 	
 	private void escribeResultado(ResourceResponse response,  Resultado resultado) {

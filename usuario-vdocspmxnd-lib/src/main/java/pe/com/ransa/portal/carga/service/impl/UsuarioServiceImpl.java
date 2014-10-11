@@ -2,7 +2,6 @@ package pe.com.ransa.portal.carga.service.impl;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -13,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pe.com.ransa.portal.carga.common.ConstantesLib;
+import pe.com.ransa.portal.carga.dao.ClienteDao;
+import pe.com.ransa.portal.carga.dao.CuentaDao;
 import pe.com.ransa.portal.carga.dao.UsuarioDTODao;
 import pe.com.ransa.portal.carga.dao.VDocsDao;
 import pe.com.ransa.portal.carga.dto.Area;
+import pe.com.ransa.portal.carga.dto.Cliente;
 import pe.com.ransa.portal.carga.dto.Cuenta;
 import pe.com.ransa.portal.carga.dto.Empresa;
 import pe.com.ransa.portal.carga.dto.EmpresaAreaUsuario;
@@ -39,6 +41,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 //	listarTipoDoc
 	@Autowired
 	private VDocsDao vDocsDao;
+	@Autowired
+	private ClienteDao daoCliente;
+	@Autowired
+	private CuentaDao daoCuenta;
 
 	public List<UsuarioDTO> listarUsuario(UsuarioDTO usuario, Integer inicio, Integer fin) {
 		logger.debug("<==============================>");
@@ -142,7 +148,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 		td.setUsuario(usuario);
 		
 		List<TipoDocumental> ltd = dao.listarUsuarioEmpresaAreaTipoDocumental(td);
-		logger.debug("miremos1===========:"+ltd);
 		if(ltd == null ||  ltd.isEmpty() || ltd.size()<1){
 			estaRegistrado = false;
 		}
@@ -163,7 +168,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 		td.setUsuario(usuario);
 		
 		List<TipoDocumental> ltd = dao.listarUsuarioEmpresaAreaTipoDocumental(td);
-		logger.debug("miremos2===========:"+ltd);
 		if(ltd == null ||  ltd.isEmpty() || ltd.size()<1){
 			estaRegistrado = false;
 		}
@@ -185,7 +189,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 		td.setUsuario(usuario);
 		
 		List<TipoDocumental> ltd = dao.listarUsuarioEmpresaAreaTipoDocumental(td);
-		logger.debug("miremos3===========:"+ltd);
 		if(ltd == null ||  ltd.isEmpty() || ltd.size()<1){
 			estaRegistrado = false;
 		}
@@ -209,7 +212,100 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return tdRespuesta;
 	}
 	
-	
+	public List<Cuenta> listarClienteCuentaActivas(Cuenta cuenta ) {
+		List<Cuenta> lCuentaNuevo = new ArrayList<Cuenta>();
+		try { 
+			cuenta.setEstado(ConstantesLib.ACTIVO);
+			Integer total = dao.totalClienteCuenta(cuenta);
+			List<Cuenta> lCuenta = dao.listarClienteCuenta(cuenta, 1, total);
+			for (Cuenta cuenta2 : lCuenta) {
+				logger.debug("ClienteCuentaActivos:"+cuenta2.getCliente().getId()+"|"+cuenta2.getIdCuenta()+"|"+cuenta.getUsuarioDto().getIdUsuario());
+				String usuario = cuenta.getUsuarioDto().getIdUsuario();
+				BigInteger idCliente = cuenta2.getCliente().getId();
+				Cliente cliente = new Cliente();
+				cliente.setUsuario(usuario);
+				cliente.setId(idCliente);
+				
+				List<Cliente> lCliente = daoCliente.listarClienteUsuario(cliente);
+				if(lCliente != null && !lCliente.isEmpty() && lCliente.size() >= 1){
+					BigInteger idCuenta = cuenta2.getIdCuenta();
+					Cuenta cuentaConsulta = new Cuenta();
+					cuentaConsulta.setIdCuenta(idCuenta);
+					cuentaConsulta.setIdCliente(idCliente);
+					cuentaConsulta.setUsuario(usuario);
+					
+					List<Cuenta> lCuentaGet = daoCuenta.listarCuentaUsuario(cuentaConsulta);
+					if(lCuentaGet == null || lCuentaGet.isEmpty() || lCuentaGet.size() < 1){
+						lCuentaNuevo.add(cuenta2);
+					}  
+				}else{
+					lCuentaNuevo.add(cuenta2);
+				} 
+			}
+			
+		} catch (Exception e) {
+			logger.error("[listarClienteCuentaActivas]",e);
+		}
+		return lCuentaNuevo;
+	}
+
+	public Integer totalClienteCuentaActivas(Cuenta cuenta) {
+		cuenta.setEstado(ConstantesLib.ACTIVO);
+		return dao.total(cuenta);
+	}
+
+	public List<Cuenta> ingresarUsuarioClienteCuenta(String idUsuario, String[] idClienteidCuenta) {
+		List<Cuenta>  lCuentaRetorno = new ArrayList<Cuenta>();
+		for (String string : idClienteidCuenta) {
+			String[] ids = string.split("-");
+			String idCliente = ids[0];
+			String idCuenta = ids[1];
+			Cliente cliente = new Cliente();
+			cliente.setId(new BigInteger(idCliente));
+			cliente.setUsuario(idUsuario);
+			
+			Cuenta cuenta = new Cuenta();
+			cuenta.setCliente(cliente);
+			cuenta.setUsuario(idUsuario);
+			cuenta.setId(new BigInteger(idCuenta));
+			cuenta.setIdCuenta(new BigInteger(idCuenta));
+			cuenta.setIdCliente(new BigInteger(idCliente));
+			
+			try {
+				List<Cliente> lClienteEstaRegistrado = daoCliente.listarClienteUsuario(cliente);
+				if(lClienteEstaRegistrado==null || lClienteEstaRegistrado.isEmpty() || lClienteEstaRegistrado.size()>1){
+					cliente = daoCliente.ingresarUsuarioCliente(cliente, idUsuario);
+				}  
+				List<Cuenta> lCuentaEstaRegistrado = daoCuenta.listarCuentaUsuario(cuenta);
+				if(lCuentaEstaRegistrado==null || lCuentaEstaRegistrado.isEmpty() || lCuentaEstaRegistrado.size()>1){
+					cuenta = daoCuenta.ingresarUsuarioCuenta(cuenta, idUsuario);
+				}
+			} catch (Exception e) {
+				cuenta.setCodigoError(ConstantesLib.CODERROR_INESPERADO);
+				cuenta.setThrowable(e);
+				cuenta.setSeGuardo(false); 
+				lCuentaRetorno.add(cuenta);
+				logger.error("[ingresarUsuarioClienteCuenta]",e);
+			}
+		}
+		return lCuentaRetorno;
+	}
+
+	public Cuenta eliminarClienteCuentaUsuario(UsuarioDTO usuarioDto, Cliente cliente, Cuenta cuenta) {
+		Cuenta cuentaRespuesta = new Cuenta();
+		try {
+			dao.eliminarClienteUsuario(cliente);
+			dao.eliminarCuentaUsuario(cuenta);
+			
+			cuentaRespuesta.setSeGuardo(true); 
+		} catch (Exception e) {
+			cuentaRespuesta.setCodigoError(ConstantesLib.CODERROR_INESPERADO); 
+			cuentaRespuesta.setThrowable(e);
+			cuentaRespuesta.setSeGuardo(false); 
+			logger.error("[eliminarClienteCuentaUsuario]",e);
+		}
+		return cuentaRespuesta;
+	}
 	
 	
 	

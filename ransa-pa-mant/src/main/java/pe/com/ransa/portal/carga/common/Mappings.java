@@ -24,5 +24,12 @@ public class Mappings {
 	
 	public static final String LISTAR_ACCESODOCUMENTALESACTIVOS_RESOURCE = "obtenerListaAccesoDocumentalActivos";
 	 
-
+	
+	
+	public static final String LISTAR_CLIENTECUENTAS_RESOURCE = "obtenerListaClienteCuentas";
+	public static final String GUARDAR_CUENTACLIENTE_USUARIO = "guardarClienteCuentasUsuario";
+	
+	public static final String ELIMINAR_ACCESOUSUARIOCUENTA = "eliminarAccesoUsuarioCuenta";
+	
+	
 }

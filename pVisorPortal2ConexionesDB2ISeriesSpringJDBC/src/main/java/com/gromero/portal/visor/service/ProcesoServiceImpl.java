@@ -41,13 +41,11 @@ public class ProcesoServiceImpl implements ProcesoService {
 		log.info("Lista COTIZADOS");
 		int i =0;
 		for (DetalleOperacionTodo item : lDetalleOperacion1) {
-			
 			if(i==2)
 				break;
 			log.info("------------------------------------------");
 			procesos(item, lDetalleOperacion1, NROFACT, varStr, correlativo,fecha,hora);
 			i++;
-			
 		}   
 //		log.info("Lista ADICIONALES");
 //		List<DetalleOperacionTodo> lDetalleOperacion2 = consultaDAO.consulta2RSAP04();

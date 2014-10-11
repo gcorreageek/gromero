@@ -3,6 +3,7 @@ package com.gromero.portal.visor.dao;
 import java.util.List;
 
 import com.gromero.portal.visor.domain.DetalleOperacionTodo;
+import com.gromero.portal.visor.domain.MmTempo;
 import com.gromero.portal.visor.domain.RSap21;
 import com.gromero.portal.visor.domain.TBN016;
 
@@ -21,6 +22,6 @@ public interface ConsultaDAO {
 	List<DetalleOperacionTodo> consulta2RSAP04();
 	List<DetalleOperacionTodo> consulta3RSAP04();
 	
-	
+	List<MmTempo> listaMmTempo();
 	
 }

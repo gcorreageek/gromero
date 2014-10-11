@@ -3,6 +3,7 @@ package pe.com.ransa.portal.carga.dao;
 import java.util.List;
 
 import pe.com.ransa.portal.carga.dto.Area;
+import pe.com.ransa.portal.carga.dto.Cliente;
 import pe.com.ransa.portal.carga.dto.Cuenta;
 import pe.com.ransa.portal.carga.dto.Empresa;
 import pe.com.ransa.portal.carga.dto.TipoDocumental;
@@ -21,7 +22,8 @@ public interface UsuarioDTODao {
 	public List<Cuenta> listar(Cuenta cuenta,Integer inicio,Integer fin);
 	public Integer total(Cuenta cuenta);
 	
-	
+	public List<Cuenta> listarClienteCuenta(Cuenta cuenta,Integer inicio,Integer fin);
+	public Integer totalClienteCuenta(Cuenta cuenta);
 	
 	public List<TipoDocumental> listarUsuarioEmpresaAreaTipoDocumental(TipoDocumental td);
 	
@@ -29,5 +31,8 @@ public interface UsuarioDTODao {
 	public Empresa eliminarEmpresaUsuario(Empresa empresa)throws Exception; 
 	public Area eliminarEmpresaAreaUsuario(Area area)throws Exception; 
 	public TipoDocumental eliminarEmpresaAreaTipoDocumentalUsuario(TipoDocumental td)throws Exception; 
+	
+	public Cliente eliminarClienteUsuario(Cliente cliente)throws Exception; 
+	public Cuenta eliminarCuentaUsuario(Cuenta cuenta)throws Exception; 
 	
 }

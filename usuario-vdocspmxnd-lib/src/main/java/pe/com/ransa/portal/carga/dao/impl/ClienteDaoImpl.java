@@ -71,8 +71,8 @@ public class ClienteDaoImpl implements ClienteDao {
 //		}
 		return cliente;
 	}  
-	public Cliente ingresarUsuarioCliente(Cliente cliente,String usuario) {
-		boolean seIngreso = false;
+	public Cliente ingresarUsuarioCliente(Cliente cliente,String usuario) throws Exception {
+//		boolean seIngreso = false;
 		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(this.jdbcTemplate);
 		SqlParameterSource in = new MapSqlParameterSource()
 		.addValue("IN_IDUSUARIO", usuario)
@@ -83,15 +83,15 @@ public class ClienteDaoImpl implements ClienteDao {
 		.addValue("IN_FECHA_MODIFICACION", null)
 		.addValue("IN_USUARIO_MODIFICACION", null);
 		 Map<String, Object> out  = null;
-		try {
+//		try {
 			out= jdbcCall.withSchemaName("VDOCSPMXND").withProcedureName("SP_INSERT_USUARIOCLIENTE").execute(in);
-			seIngreso= true;
-		} catch (Exception e) {
-			logger.error("[Exception]",e);
-			seIngreso= false;
-		}finally{
-			cliente.setSeIngreso(seIngreso);
-		} 
+//			seIngreso= true;
+//		} catch (Exception e) {
+//			logger.error("[Exception]",e);
+//			seIngreso= false;
+//		}finally{
+//			cliente.setSeIngreso(seIngreso);
+//		} 
 		cliente.setUsuario(usuario);
 		return cliente;
 	}
@@ -222,21 +222,19 @@ public class ClienteDaoImpl implements ClienteDao {
 			lCliente = (List<Cliente> ) resultado.get("clientesXruc");	
 			logger.debug("lCliente:"+lCliente.size());
 		return lCliente;
-	}
-	public List<Cliente> listarClienteUsuario(Cliente cliente, Integer inicio,
-			Integer fin) throws Exception {
-			List<Cliente> lCliente = null;
-			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withSchemaName("VDOCSPMXND")
-				.withProcedureName("SP_LISTAR_USUARIOCLIENTE")
-				.returningResultSet("clientesUsuario", new ClienteUsuarioMapper());
-			SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
-				.addValue("P_ID_CLI", cliente.getId()) 
-				.addValue("P_INICIO_RESULTADO", inicio)
-				.addValue("P_FIN_RESULTADO", fin);
-			Map<String, Object> resultado = simpleJdbcCall.execute(sqlParameterSource);
-			lCliente = (List<Cliente> ) resultado.get("clientesUsuario");	
-			logger.debug("lCliente:"+lCliente.size());
-			return lCliente;
+	} 
+	public List<Cliente> listarClienteUsuario(Cliente cliente) throws Exception {
+		List<Cliente> lCliente = null;
+		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withSchemaName("VDOCSPMXND")
+			.withProcedureName("SP_LISTAR_USUARIOCLIENTE")
+			.returningResultSet("clientesUsuario", new ClienteUsuarioMapper());
+		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+			.addValue("P_ID_CLI", cliente.getId()) 
+			.addValue("P_IDUSUARIO", cliente.getUsuario());
+		Map<String, Object> resultado = simpleJdbcCall.execute(sqlParameterSource);
+		lCliente = (List<Cliente> ) resultado.get("clientesUsuario");	
+//		logger.debug("lCliente:"+lCliente.size());
+		return lCliente;
 	}
  
 	 

@@ -33,7 +33,7 @@ public class InicioController {
 	public String inicio(HttpServletRequest request,Model m,Usuario u) {  
 		log.info("inicio"+u.getUserName());
 		log.info("inicio"+u.getUserPass());
-		procesoService.procesarTarea(null);
+//		procesoService.procesarTarea(null);
 		
 		HttpSession session = request.getSession();
 		String ruta = (String) session.getAttribute("session_ruta");

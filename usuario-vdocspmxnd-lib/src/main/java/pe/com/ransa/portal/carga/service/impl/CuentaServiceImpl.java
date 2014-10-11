@@ -145,7 +145,8 @@ public class CuentaServiceImpl implements CuentaService {
 			Cuenta cuenta = new Cuenta();
 			cuenta.setIdCliente(idCliente);
 			cuenta.setIdCuenta(idCuenta);
-			List<Cuenta> lCuenta = cuentaDao.listarCuentaUsuario(cuenta, 0, 10);
+			cuenta.setUsuario("");
+			List<Cuenta> lCuenta = cuentaDao.listarCuentaUsuario(cuenta);
 			for (Cuenta cue : lCuenta) {
 				if(cue.getEstado().equals(ConstantesLib.ACTIVO)){
 					tieneUsuarioCuentaActivos = true;

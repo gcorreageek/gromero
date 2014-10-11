@@ -12,6 +12,7 @@ public class AccesoCuentaMapper implements RowMapper<Cuenta> {
 	public Cuenta mapRow(ResultSet resultSet, int rowNum) throws SQLException { 
 //T.ID_CLI,T.RUC,T.RAZON_SOCIAL,T.ID_CUENTA,T.NRO_CUENTA,T.ESTADO
 		Cuenta cuenta = new Cuenta(); 
+		cuenta.setIdCliente(resultSet.getBigDecimal("ID_CLI").toBigInteger());
 		Cliente cliente = new Cliente();
 		cliente.setId(resultSet.getBigDecimal("ID_CLI").toBigInteger());
 		cliente.setRUC(resultSet.getString("RUC"));

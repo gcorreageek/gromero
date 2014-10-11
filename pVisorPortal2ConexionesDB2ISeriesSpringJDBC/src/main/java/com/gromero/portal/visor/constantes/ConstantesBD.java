@@ -61,6 +61,10 @@ public final class ConstantesBD {
     .append("WHERE D.ESTOPECST='A' AND A.SACRG=1 AND C.NROPEDI=0 AND " )
     .append("I.NRODOCID NOT IN (SELECT RUCPRO FROM SICEX.TAM052 WHERE SACRG=1) " )
     .append("AND M.ESTOPEVTA IN ('P' ,'F') ORDER BY A.NUMOPE,B.NROOI,I.NRODOCID,J.CODMON ").toString();
+	
+	public static final String MMTEMPO = new StringBuilder("SELECT IMP112,IMP113,IMP114,TDIRCI,TDIREM,TDIREX,IMPDTC,UPDATE_IDENT " )
+    .append(" FROM " )  
+    .append(" DC@DESLIB.MMTEMPO ").toString();
 
 //	public static final String PROCEDURE_SILEX21C = " CALL SILEX21C(?,?,?,?,?,?,?,?) ";
 	public static final String PROCEDURE_SILEX21C = "CALL SP_PRUEBA_SILEX21C(?,?,?,?,?,?,?,?) ";

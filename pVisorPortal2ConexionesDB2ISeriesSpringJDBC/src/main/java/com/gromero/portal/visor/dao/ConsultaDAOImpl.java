@@ -15,14 +15,11 @@ import org.springframework.stereotype.Repository;
 
 import com.gromero.portal.visor.constantes.ConstantesBD;
 import com.gromero.portal.visor.domain.DetalleOperacionTodo;
+import com.gromero.portal.visor.domain.MmTempo;
 
 @Repository
 public class ConsultaDAOImpl implements ConsultaDAO {
- 
-			
-	
 	private final Log log = LogFactory.getLog(getClass());
-	
 	
 	private JdbcTemplate jdbcTemplate; 
 	
@@ -130,6 +127,26 @@ public class ConsultaDAOImpl implements ConsultaDAO {
 										} 
 									}); 
 				return detalleOperacionTodo;
+	}
+
+	@Override
+	public List<MmTempo> listaMmTempo() {
+		List<MmTempo> detalle = this.jdbcTemplate.query(ConstantesBD.MMTEMPO,new RowMapper<MmTempo>(){  
+										@Override
+										public MmTempo mapRow(ResultSet rs, int rowNum) throws SQLException {
+											MmTempo mmtempo = new MmTempo();
+											mmtempo.setImp112(rs.getDouble("IMP112"));
+											mmtempo.setImp113(rs.getDouble("IMP113"));
+											mmtempo.setImp114(rs.getDouble("IMP114"));
+											mmtempo.setTdirci(rs.getString("TDIRCI"));
+											mmtempo.setTdirem(rs.getString("TDIRCI"));
+											mmtempo.setTdirex(rs.getString("TDIRCI"));
+											mmtempo.setImpdtc(rs.getDouble("IMPDTC"));
+											mmtempo.setUpdateIdent(rs.getDouble("UPDATE_IDENT")); 
+											return mmtempo;
+										} 
+									}); 
+		return detalle;
 	}
 
 

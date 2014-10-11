@@ -194,8 +194,8 @@ public class CuentaDaoImpl implements CuentaDao{
 		 logger.debug("MAP=>"+ Arrays.toString(out.entrySet().toArray()));
 		return cuenta;
 	}
-	public List<Cuenta> listarCuentaUsuario(Cuenta cuenta, Integer inicio, Integer fin) throws Exception {
-		logger.debug("==>"+cuenta.getIdCliente()+"|"+cuenta.getIdCuenta());
+	public List<Cuenta> listarCuentaUsuario(Cuenta cuenta) throws Exception {
+//		logger.debug("==>"+cuenta.getIdCliente()+"|"+cuenta.getIdCuenta()+"|"+cuenta.getUsuario());
 		List<Cuenta> lCuenta = null;
 		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withSchemaName("VDOCSPMXND")
 			.withProcedureName("SP_LISTAR_USUARIOCUENTA")
@@ -203,11 +203,10 @@ public class CuentaDaoImpl implements CuentaDao{
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
 			.addValue("P_ID_CLI", cuenta.getIdCliente()) 	
 			.addValue("P_ID_CUENTA", cuenta.getIdCuenta())
-			.addValue("P_INICIO_RESULTADO", inicio)
-			.addValue("P_FIN_RESULTADO", fin);
+			.addValue("P_IDUSUARIO", cuenta.getUsuario());
 		Map<String, Object> resultado = simpleJdbcCall.execute(sqlParameterSource);
 		lCuenta = (List<Cuenta> ) resultado.get("usuarioCuenta");	
-		logger.debug("lCuentaUsuario:"+lCuenta.size());
+//		logger.debug("lCuentaUsuario:"+lCuenta.size());
 		return lCuenta;
 	}
  
