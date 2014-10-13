@@ -133,10 +133,10 @@ $( document ).ready(function() {
 		url : '${obtenerListaAccesoCuentas}'+'?txtIdUsuario=&estado=', 
 		datatype : "json", 
 		colNames : [ 'idCliente','RUC','RAZON SOCIAL','idCuenta','NRO CUENTA','ESTADO' ],//idEmpresa nombre 
-		colModel : [ { name : 'idCliente', index : 'idCliente', width : 10 },  
+		colModel : [ { name : 'idCliente', index : 'idCliente', width : 10,hidden:true,editrules:{edithidden:true} },  
 		             { name : 'cliente.RUC', index : 'cliente.RUC', width : 250 },   
 		             { name : 'cliente.razonSocial', index : 'cliente.razonSocial', width : 330 },
-		             { name : 'id', index : 'id', width : 80 },
+		             { name : 'idCuenta', index : 'idCuenta', width : 80,hidden:true,editrules:{edithidden:true} },
 		             { name : 'numeroCuenta', index : 'numeroCuenta', width : 250 },
 		             { name : 'estado', index : 'estado', width : 80 }
 		             ],
@@ -329,7 +329,7 @@ $( document ).ready(function() {
 			var urlEliminar = '';
 			var ret = jQuery("#list3").jqGrid('getRowData',selecccionadoGrilla[0]);  
 			var idCliente=ret.idCliente;
-			var idCuenta=ret.id; 
+			var idCuenta=ret.idCuenta; 
 			var ids='&idClienteidCuenta='+idCliente+'-'+idCuenta;
 			urlEliminar ='?txtIdUsuario='+$("#txtIdFiltro").val()+'&cboEstadoCuentaUsuario='+$("#cboEstadoCuentaUsuario").val()+ids;
 			$.get( "${eliminarAccesoUsuarioCuenta}"+urlEliminar ,function(data){

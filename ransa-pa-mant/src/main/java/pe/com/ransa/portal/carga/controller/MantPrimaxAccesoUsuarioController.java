@@ -287,10 +287,15 @@ public class MantPrimaxAccesoUsuarioController {
 	@ResourceMapping(value=Mappings.LISTAR_ACCESOCUENTAS_RESOURCE)
 	public void obtenerListaAccesoCuentasResource(ResourceRequest request, ResourceResponse response,   
 			@RequestParam("page") int page, @RequestParam("rows") int limit ,
-			@RequestParam("txtIdUsuario") String idUsuario,@RequestParam("estado") String estado){ 
+			@RequestParam("txtIdUsuario") String idUsuario,@RequestParam("estado") String estado){
+		logger.debug("HEREEEEEEEEEEEEEEEEEE!! HELP ME!");
 		logger.debug("JSON:obtenerListaAccesoCuentasResource");
-		logger.debug("page=>"+page+"rows=>"+limit+"idUsuario=>"+idUsuario+"|Estado:"+estado); 
+		logger.debug("page1=>"+page+"rows=>"+limit+"idUsuario=>"+idUsuario+"|Estado:"+estado); 
 		int rows = limit; 
+		if(page<=0){
+			page =1;
+		}
+		logger.debug("page2=>"+page+"rows=>"+limit+"idUsuario=>"+idUsuario+"|Estado:"+estado); 
 		Cuenta cuenta = new Cuenta();
 		UsuarioDTO usuario = new UsuarioDTO();
 		usuario.setIdUsuario(idUsuario); 

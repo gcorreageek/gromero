@@ -22,8 +22,7 @@ public class Cuenta  extends AuditoriaTabla {
 
 	private Cliente cliente;
 	private UsuarioDTO usuarioDto;
-	 
-	
+	  
 	
 	private String usuario;
 	private String[] usuarios;

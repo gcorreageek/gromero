@@ -67,7 +67,9 @@ public class MantPrimaxClienteCuentaController {
 		logger.debug("JSON:obtenerListaAreasResource");
 		logger.debug("page=>"+page+"rows=>"+limit+"ruc=>"+ruc+"razonSocial=>"+razonSocial+"codigo=>"+codigo+"estado=>"+estado); 
 		int rows = limit; 
-		
+		if(page<=0){
+			page =1;
+		}
 		Cliente cliente = new Cliente();
 		cliente.setRUC(ruc==null?"":ruc);
 		cliente.setRazonSocial(razonSocial==null?"":razonSocial);
@@ -175,6 +177,9 @@ public class MantPrimaxClienteCuentaController {
 			@RequestParam("page") int page, @RequestParam("rows") int limit ,
 			@RequestParam("id") BigInteger idCliente){
 		logger.debug("JSON:obtenerListaAreasResource");
+		if(page<=0){
+			page =1;
+		}
 		logger.debug("page=>"+page+"rows=>"+limit+"id=>"+idCliente);
 		Cuenta cuenta = new Cuenta();
 		cuenta.setIdCliente(idCliente==null?new BigInteger("0"):idCliente);

@@ -30,6 +30,7 @@ public class Cliente extends AuditoriaTabla implements Serializable {
 	private String usuario;
 	private String[] usuarios;
 	private List<Cuenta> cuentas;
+//	private BigInteger idCliente;
 	
 	private boolean seIngreso;
 	private Integer errorEnCliente;
@@ -141,7 +142,7 @@ public class Cliente extends AuditoriaTabla implements Serializable {
 	public void setUsuarioDto(UsuarioDTO usuarioDto) {
 		this.usuarioDto = usuarioDto;
 	}
-	
+ 
  
 	
 	

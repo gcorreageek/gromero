@@ -79,7 +79,9 @@ public class MantPrimaxEmpresaAreaTDController {
 			@RequestParam("txtEstado") String estado){
 		logger.debug("JSON:obtenerListaEmpresasResource");
 		logger.debug("page=>"+page+"rows=>"+limit+"id=>"+id+"empresa=>"+empresa+"estado=>"+estado); 
-		
+		if(page<=0){
+			page =1;
+		}
 		BigInteger idBigInteger = Util.parseStringToBigInteger(id);
 		if(idBigInteger== null){
 			idBigInteger = new BigInteger("0"); 
@@ -193,6 +195,9 @@ public class MantPrimaxEmpresaAreaTDController {
 			@RequestParam("txtId") BigInteger id){
 		logger.debug("JSON:obtenerListaAreasResource");
 		logger.debug("page=>"+page+"rows=>"+limit+"id=>"+id); 
+		if(page<=0){
+			page =1;
+		}
 		int rows = limit; 
 		
 		Area area = new Area();
@@ -286,6 +291,9 @@ public class MantPrimaxEmpresaAreaTDController {
 			@RequestParam("txtIdEmpresa") BigInteger idEmpresa,@RequestParam("txtIdArea") BigInteger idArea){
 		logger.debug("JSON:obtenerListaTDResource");
 		logger.debug("page=>"+page+"rows=>"+limit+"idEmpresa=>"+idEmpresa+"idArea=>"+idArea); 
+		if(page<=0){
+			page =1;
+		}
 		int rows = limit; 
 		TipoDocumental td = new TipoDocumental();
 		Area area = new Area();
